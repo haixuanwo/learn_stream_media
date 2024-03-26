@@ -1,0 +1,4 @@
+2024/03/26 12:46:52 [emerg] 379852#0: mkdir() "video/hls" failed (2: No such file or directory)
+2024/03/26 12:47:23 [emerg] 379855#0: bind() to 0.0.0.0:80 failed (13: Permission denied)
+2024/03/26 12:58:16 [emerg] 380100#0: unknown directive "flv_live" in ../learn_nginx_rtmp/conf/nginx.conf:89
+2024/03/26 13:01:12 [notice] 380108#0: signal process started
