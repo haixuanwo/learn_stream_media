@@ -3,7 +3,7 @@
  * @Email: haixuanwoTxh@gmail.com
  * @Date: 2024-03-13 11:52:35
  * @LastEditors: Clark
- * @LastEditTime: 2024-03-21 15:50:12
+ * @LastEditTime: 2024-03-30 11:05:57
  * @Description: file content
  */
 
@@ -159,13 +159,15 @@ int main(int argc,char **argv)
     struct v4l2_format fmt;
     memset(&fmt,0,sizeof(fmt));
     fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-    fmt.fmt.pix.width=CAP_W;
-    fmt.fmt.pix.height=CAP_H;
+    fmt.fmt.pix.width = 640;
+    fmt.fmt.pix.height = 480;
+    fmt.fmt.pix.pixelformat = V4L2_PIX_FMT_NV12;
     //fmt.fmt.pix.pixelformat= V4L2_PIX_FMT_YUYV;
     //fmt.fmt.pix.pixelformat= V4L2_PIX_FMT_MJPEG;
-    fmt.fmt.pix.pixelformat= V4L2_PIX_FMT_H264;
-    fmt.fmt.pix.field=V4L2_FIELD_NONE;
-    if(ioctl(fd,VIDIOC_S_FMT,&fmt)==-1){
+    // fmt.fmt.pix.pixelformat= fmtdesc.pixelformat;
+    fmt.fmt.pix.field = V4L2_FIELD_NONE;
+    if (ioctl(fd,VIDIOC_S_FMT,&fmt) == -1)
+    {
         printf("设置视频格式出错!\n");
         return -1;
     }
@@ -223,7 +225,7 @@ int main(int argc,char **argv)
 
     int count=1;
     FILE *fp;
-    fp=fopen("./test_640_480.h264","wb+");
+    fp=fopen("./test_640_480.nv12","wb+");
     if(fp==NULL)
     {
        printf("open failed!\n");
@@ -243,6 +245,7 @@ int main(int argc,char **argv)
             return -1;
         }
 
+        printf("fwrite --------\n");
         fwrite(buffers[buf.index].start,1,buf.bytesused,fp);
 
         //把帧放回队列
