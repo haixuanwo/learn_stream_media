@@ -3,7 +3,7 @@
  * @Email: haixuanwoTxh@gmail.com
  * @Date: 2024-03-18 16:35:50
  * @LastEditors: Clark
- * @LastEditTime: 2024-05-28 11:17:34
+ * @LastEditTime: 2024-04-07 16:37:05
  * @Description: file content
  */
 #include <stdio.h>
@@ -185,11 +185,11 @@ int send_ota_file(int argc, char **argv)
     return 0;
 }
 
-int receive_file(int argc, char **argv)
+int receive_file(int argc, char *argv)
 {
     if (2 != argc)
     {
-        printf("Usage: %s <firmware_file>\n", argv[0]);
+        printf("Usage: %s <firmware_file>\n", argv);
         return -1;
     }
 
@@ -197,13 +197,13 @@ int receive_file(int argc, char **argv)
     #define BUF_SIZE 60
     uint8_t buf[BUF_SIZE] = {0};
 
-    FILE *fp = fopen(argv[1], "w+");
+    FILE *fp = fopen(argv, "w+");
     if(fp < 0)
     {
         printf("open file fail!\n");
         return -1;
     }
-    printf("open file[%s] success!\n", argv[1]);
+    printf("open file[%s] success!\n", argv);
 
     if(init_uvc_xu_control_query() == false)
     {
@@ -229,7 +229,7 @@ int receive_file(int argc, char **argv)
         if (buf[0] == OTA_DATA)
         {
              fwrite(buf+2, 1, buf[1], fp);
-             printf("receive len[%u] \n", buf[1]);
+            //  printf("receive len[%u] \n", buf[1]);
         }
         else if (buf[0] == OTA_END)
         {
@@ -245,7 +245,13 @@ int receive_file(int argc, char **argv)
 int main(int argc, char **argv)
 {
     // send_ota_file(argc, argv);
-    receive_file(argc, argv);
+
+    char filename[3][64] = {"far.pcm", "near.pcm", "filter.pcm"};
+
+    for (size_t i = 0; i < 3; i++)
+    {
+        receive_file(2, filename[i]);
+    }
 
     return 0;
 }
