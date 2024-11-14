@@ -1,0 +1,8 @@
+FFmpeg
+.vscode
+FFmpeg_app/build
+FFmpeg_app/lib
+FFmpeg_app/bin
+FFmpeg_app/nocturne.mp4
+FFmpeg_app/test.NV12
+FFmpeg_app/test.pcm
